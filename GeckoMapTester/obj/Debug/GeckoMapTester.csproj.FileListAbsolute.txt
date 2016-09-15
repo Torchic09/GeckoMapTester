@@ -1,0 +1,30 @@
+C:\Users\mario\Desktop\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\bin\Debug\GeckoMapTester.exe.config
+C:\Users\mario\Desktop\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\bin\Debug\GeckoMapTester.exe
+C:\Users\mario\Desktop\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\bin\Debug\GeckoMapTester.pdb
+C:\Users\mario\Desktop\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.csprojResolveAssemblyReference.cache
+C:\Users\mario\Desktop\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.Form1.resources
+C:\Users\mario\Desktop\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.Properties.Resources.resources
+C:\Users\mario\Desktop\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.csproj.GenerateResource.Cache
+C:\Users\mario\Desktop\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.exe
+C:\Users\mario\Desktop\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.pdb
+E:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\bin\Debug\GeckoMapTester.exe.config
+E:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.exe
+E:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.pdb
+F:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\bin\Debug\GeckoMapTester.exe.config
+F:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.exe
+F:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.pdb
+F:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\bin\Debug\GeckoMapTester.exe
+F:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\bin\Debug\GeckoMapTester.pdb
+F:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.csprojResolveAssemblyReference.cache
+F:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.Form1.resources
+F:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.Properties.Resources.resources
+F:\Splatoon Gecko - Master\GeckoMapTester-master\GeckoMapTester\obj\Debug\GeckoMapTester.csproj.GenerateResource.Cache
+F:\Splatoon Gecko - Master\GeckoMapTester-master With Shooting Range Changer\GeckoMapTester\bin\Debug\GeckoMapTester.exe.config
+F:\Splatoon Gecko - Master\GeckoMapTester-master With Shooting Range Changer\GeckoMapTester\obj\Debug\GeckoMapTester.exe
+F:\Splatoon Gecko - Master\GeckoMapTester-master With Shooting Range Changer\GeckoMapTester\obj\Debug\GeckoMapTester.pdb
+F:\Splatoon Gecko - Master\GeckoMapTester-master With Shooting Range Changer\GeckoMapTester\bin\Debug\GeckoMapTester.exe
+F:\Splatoon Gecko - Master\GeckoMapTester-master With Shooting Range Changer\GeckoMapTester\bin\Debug\GeckoMapTester.pdb
+F:\Splatoon Gecko - Master\GeckoMapTester-master With Shooting Range Changer\GeckoMapTester\obj\Debug\GeckoMapTester.csprojResolveAssemblyReference.cache
+F:\Splatoon Gecko - Master\GeckoMapTester-master With Shooting Range Changer\GeckoMapTester\obj\Debug\GeckoMapTester.Form1.resources
+F:\Splatoon Gecko - Master\GeckoMapTester-master With Shooting Range Changer\GeckoMapTester\obj\Debug\GeckoMapTester.Properties.Resources.resources
+F:\Splatoon Gecko - Master\GeckoMapTester-master With Shooting Range Changer\GeckoMapTester\obj\Debug\GeckoMapTester.csproj.GenerateResource.Cache

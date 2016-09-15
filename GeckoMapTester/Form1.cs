@@ -252,6 +252,11 @@ namespace GeckoMapTester
                         // Dojo
                         pokeThem(0x12B55A84 + diffforhandler, NewMapName, 5);
                     }
+                    if (ShootingRangeCheckBox.Checked && NewMapName != "<no change>")
+                    {
+                        // Shooting Range
+                        pokeThem(0x105FB948 + diffforhandler, NewMapName, 1);
+                    }
                 }
                 else
                 {
@@ -265,6 +270,11 @@ namespace GeckoMapTester
                     {
                         // Dojo
                         pokeThem(0x12B55A84, NewMapName, 5);
+                    }
+                    if (ShootingRangeCheckBox.Checked && NewMapName != "<no change>")
+                    {
+                        // Shooting Range
+                        pokeThem(0x105FB948, NewMapName, 1);
                     }
                 }
             }
