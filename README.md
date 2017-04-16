@@ -1,7 +1,7 @@
 # GeckoMapTester
 A (custom) map loader for splatoon.
 
-Currently supported versions: 2.7, 2.8, 2.9, 2.10(EU,US,JP), Browser+ELF Codehandler
+Currently supported versions: 2.7, 2.8, 2.9, 2.10 & 2.12(EU,US,JP), Browser+ELF Codehandler
 
 Thanks to cFLean and NWPlayer for help and some useful functions.
 
