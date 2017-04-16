@@ -1,15 +1,14 @@
 using System;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace GeckoMapTester
 {
     public partial class Form1 : Form
     {
-
         public TCPGecko Gecko;
-        bool hasExtendedHandlerInstalled = false;
-
-        uint diffforhandler = 0x9000;
+        uint diff = 0;
 
         public Form1()
         {
@@ -40,6 +39,7 @@ namespace GeckoMapTester
                 new NameWrapper("Blackbelly Skatepark (Dojo)","Fld_SkatePark00_Dul"),
                 new NameWrapper("Tutorial 1","Fld_Tutorial00_Ttr"),
                 new NameWrapper("Tutorial 2","Fld_TutorialShow00_Ttr"),
+                new NameWrapper("Match Room","Fld_MatchRoom_Mch"),
                 new NameWrapper("Octotrooper Hideout","Fld_EasyHide00_Msn"),
                 new NameWrapper("Lair of the Octoballs","Fld_EasyClimb00_Msn"),
                 new NameWrapper("Rise of the Octocopters","Fld_EasyJump00_Msn"),
@@ -101,7 +101,19 @@ namespace GeckoMapTester
             seCBox.SelectedIndex = 0;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Configuration.Load();
+            IPBox.Text = Configuration.currentConfig.lastIp;
+        }
+
+        private void IPBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode.ToString() == "Return")
+                ConnectButton_Click(sender, e);
+        }
+
+        private void ConnectButton_Click(object sender, EventArgs e)
         {
             Gecko = new TCPGecko(IPBox.Text, 7331);
             try
@@ -114,37 +126,26 @@ namespace GeckoMapTester
                 return;
             }
 
-            Gecko.poke(0x10014cfc, 0x00000001);
-            System.Threading.Thread.Sleep(1000);
-            if (Gecko.peek(0x10014D00) == 0x00000000)
+            Configuration.currentConfig.lastIp = IPBox.Text;
+            Configuration.Save();
+
+            uint JRAddr = Gecko.peek(0x106E975C) + 0x92D8;
+            if (Gecko.peek(JRAddr) == 0x000003F2)
             {
-                /*
-                MessageBox.Show("register: " + String.Format("{0:x2}", Gecko.peek(0x10014D00)), "info", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                MessageBox.Show("✘", "fail", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                */
-                hasExtendedHandlerInstalled = false;
+                diff = JRAddr - 0x12CDADA0;
             }
             else
             {
-                /*
-                MessageBox.Show("register: " + String.Format("{0:x2}", Gecko.peek(0x10014D00)), "info", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                MessageBox.Show("✓", "good", MessageBoxButtons.OK, MessageBoxIcon.Hand);
-                */
-                hasExtendedHandlerInstalled = true;
+                DisconnButton_Click(sender, e);
+                MessageBox.Show(Properties.Resources.FIND_DIFF_FAILED_TEXT, "Connection Aborted", MessageBoxButtons.OK, MessageBoxIcon.Hand);
             }
-            Gecko.poke(0x10014cfc, 0x00000000);
-
-            Gecko.poke(0x10613C2C, 0x5F476573);
-            Gecko.poke(0x10613C3C, 0x756C6174);
-            Gecko.poke(0x10613C4C, 0x68650000);
-            Gecko.poke(0x10613C88, 0x63650000);
 
             groupBox2.Enabled = true;
             DisconnButton.Enabled = true;
             ConnectButton.Enabled = false;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void DisconnButton_Click(object sender, EventArgs e)
         {
             Gecko.Disconnect();
             groupBox2.Enabled = false;
@@ -154,128 +155,43 @@ namespace GeckoMapTester
 
         private void PokeAllMaps(string NewMapName)
         {
-            if (VerCBox.Text == "2.7.0")
+            if (VerCBox.Text == "2.7.0" || VerCBox.Text == "2.8.0")
             {
-                if (hasExtendedHandlerInstalled)
+                if (OnlineCheckBox.Checked && NewMapName != "<no change>")
                 {
-                    if (OnlineCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Main maps
-                        pokeThem(0x12AEDE8C + diffforhandler, NewMapName, 16);
+                    // Main maps
+                    pokeThem(0x12AEDE8C + diff, NewMapName, 16);
 
-                        // other maps
-                        pokeThem(0x12B4BA3C + diffforhandler, NewMapName, 12);
+                    // other maps
+                    pokeThem(0x12B4BA3C + diff, NewMapName, 12);
 
-                        // redundant maps
-                        pokeThem(0x12B4D89C + diffforhandler, NewMapName, 9);
+                    // redundant maps
+                    pokeThem(0x12B4D89C + diff, NewMapName, 9);
 
-                    }
-                    if (DojoCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Dojo
-                        pokeThem(0x12B533BC + diffforhandler, NewMapName, 5);
-                    }
                 }
-                else
+                if (DojoCheckBox.Checked && NewMapName != "<no change>")
                 {
-                    if (OnlineCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Main maps
-                        pokeThem(0x12AEDE8C, NewMapName, 16);
-
-                        // other maps
-                        pokeThem(0x12B4BA3C, NewMapName, 12);
-
-                        // redundant maps
-                        pokeThem(0x12B4D89C, NewMapName, 9);
-                    }
-                    if (DojoCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Dojo
-                        pokeThem(0x12B533BC, NewMapName, 5);
-                    }
+                    // Dojo
+                    pokeThem(0x105FB958, NewMapName, 1);
                 }
             }
-            if (VerCBox.Text == "2.8.0")
+          
+            if (VerCBox.Text == "2.12.0")
             {
-                if (hasExtendedHandlerInstalled)
+                if (OnlineCheckBox.Checked && NewMapName != "<no change>")
                 {
-                    if (OnlineCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Main maps
-                        pokeThem(0x12AEDE8C + diffforhandler, NewMapName, 16);
-
-                        // other maps
-                        pokeThem(0x12B4BA3C + diffforhandler, NewMapName, 12);
-
-                        // redundant maps
-                        pokeThem(0x12B4D89C + diffforhandler, NewMapName, 9);
-                    }
-                    if (DojoCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Dojo
-                        pokeThem(0x12B533BC + diffforhandler, NewMapName, 5);
-                    }
+                    // Main maps
+                    pokeThem(0x12B4D6E4 + diff, NewMapName, 16);
                 }
-                else
+                if (DojoCheckBox.Checked && NewMapName != "<no change>")
                 {
-                    if (OnlineCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Main maps
-                        pokeThem(0x12AEDE8C, NewMapName, 16);
-
-                        // other maps
-                        pokeThem(0x12B4BA3C, NewMapName, 12);
-
-                        // redundant maps
-                        pokeThem(0x12B4D89C, NewMapName, 9);
-                    }
-                    if (DojoCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Dojo
-                        pokeThem(0x12B533BC, NewMapName, 5);
-                    }
+                    // Dojo
+                    pokeThem(0x12B55A84 + diff, NewMapName, 5);
                 }
-            }
-
-            if (VerCBox.Text == "2.10.0" || VerCBox.Text == "2.9.0")
-            {
-                if (hasExtendedHandlerInstalled)
+                if (ShootingRangeCheckBox.Checked && NewMapName != "<no change>")
                 {
-                    if (OnlineCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Main maps
-                        pokeThem(0x12B4D6E4 + diffforhandler, NewMapName, 16);
-                    }
-                    if (DojoCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Dojo
-                        pokeThem(0x12B55A84 + diffforhandler, NewMapName, 5);
-                    }
-                    if (ShootingRangeCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Shooting Range
-                        pokeThem(0x105FB948 + diffforhandler, NewMapName, 1);
-                    }
-                }
-                else
-                {
-                    if (OnlineCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Main maps
-                        pokeThem(0x12B4D6E4, NewMapName, 16);
-
-                    }
-                    if (DojoCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Dojo
-                        pokeThem(0x12B55A84, NewMapName, 5);
-                    }
-                    if (ShootingRangeCheckBox.Checked && NewMapName != "<no change>")
-                    {
-                        // Shooting Range
-                        pokeThem(0x105FB948, NewMapName, 1);
-                    }
+                    // Shooting Range
+                    pokeThem(0x105FB958, NewMapName, 1);
                 }
             }
         }
@@ -284,24 +200,11 @@ namespace GeckoMapTester
         {
             if (SetName != "<no change>")
             {
-                uint baseAddress = 0x12B4BB20;
-                if (VerCBox.Text == "2.10.0" || VerCBox.Text == "2.9.0")
+                uint baseAddress = VerCBox.Text == "2.12.0" ? (uint)0x12B4D7C8 : 0x12B4BB20;
+
+                for (uint i = 0; i < 16; i++)
                 {
-                    baseAddress = 0x12B4D7C8;
-                }
-                if (hasExtendedHandlerInstalled)
-                {
-                    for (uint i = 0; i < 16; i++)
-                    {
-                        writeStringSimple(baseAddress + diffforhandler + i * 0x0288, SetName, "MisMonitorBroken,Common".Length);
-                    }
-                }
-                else
-                {
-                    for (uint i = 0; i < 16; i++)
-                    {
-                        writeStringSimple(baseAddress + i * 0x0288, SetName, "MisMonitorBroken,Common".Length);
-                    }
+                    writeString(baseAddress + diff + i * 0x0288, SetName, "MisMonitorBroken,Common".Length);
                 }
             }
         }
@@ -309,11 +212,20 @@ namespace GeckoMapTester
         private void pokeThem(uint startOffset, string NewMapName, int num)
         {
             for (uint i = 0; i < num; i++)
-                writeStringSimple(startOffset + i * 0x288, NewMapName, "Fld_BossCylinderKing_Bos_Msn".Length);
+                writeString(startOffset + i * 0x288, NewMapName, "Fld_BossCylinderKing_Bos_Msn".Length);
         }
 
         private void PokeButton_Click(object sender, EventArgs e)
         {
+            //disable online
+            if (DojoCheckBox.Checked)
+            {
+                Gecko.poke(0x10613C2C, 0x5F476573);
+                Gecko.poke(0x10613C3C, 0x756C6174);
+                Gecko.poke(0x10613C4C, 0x68650000);
+                Gecko.poke(0x10613C88, 0x63650000);
+            }
+
             try
             {
                 PokeAllMaps(((NameWrapper)NameCBox.SelectedItem).dataName);
@@ -335,33 +247,11 @@ namespace GeckoMapTester
             MessageBox.Show("Success!", "GeckoTool", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
         }
 
-        private void writeString(string s, uint offset)
+        private void writeString(uint offset, string s)
         {
-            uint push = 0;
-            int pos = 0;
-            if (offset % 4 != 0)
-            {
-                push = s[pos++];
-                offset -= offset % 4;
-                Gecko.poke(offset, push);
-                offset += 4;
-            }
-            for (; pos < s.Length; pos += 2, offset += 4)
-            {
-                if (pos + 1 == s.Length)
-                {
-                    push = (uint)(s[pos] << 16) + (Gecko.peek(offset) & 0xFF);
-                }
-                push = (uint)(s[pos] << 16) + s[pos + 1];
-                Gecko.poke(offset, push);
-            }
+            writeString(offset, s, s.Length);
         }
-
-        private void writeStringSimple(uint offset, string s)
-        {
-            writeStringSimple(offset, s, s.Length);
-        }
-        private void writeStringSimple(uint offset, string s, int length)
+        private void writeString(uint offset, string s, int length)
         {
             uint push = 0;
             int pos = 0;
@@ -465,6 +355,7 @@ namespace GeckoMapTester
                     break;
                 }
                 Gecko.poke(offset, 0);
+
             }
         }
     }
